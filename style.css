@@ -1,0 +1,42 @@
+body { margin: 0; background: url('pantalla.png') no-repeat center center fixed; background-size: cover; font-family: 'Tahoma', sans-serif; overflow: hidden; height: 100vh; user-select: none; }
+#desktop { width: 100vw; height: calc(100vh - 40px); position: relative; }
+
+/* Iconos y Notificación */
+.icon { width: 80px; text-align: center; color: white; cursor: pointer; font-size: 14px; text-shadow: 1px 1px 2px #000; position: absolute; padding: 5px; border-radius: 5px; }
+.icon:hover { background: rgba(255, 255, 255, 0.2); }
+.icon img { width: 50px; display: block; margin: 0 auto 5px; }
+#email-badge { position: absolute; top: -5px; right: 10px; background: red; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: bold; line-height: 20px; text-align: center; z-index: 10; display: none; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+
+/* Nota Post-it */
+#sticky-note { position: absolute; top: 30px; left: calc(100vw - 250px); width: 180px; background: #fdfd96; padding: 15px 20px; box-shadow: 3px 3px 10px rgba(0,0,0,0.4); transform: rotate(3deg); font-family: 'Caveat', cursive; font-size: 22px; color: #333; cursor: grab; z-index: 10; }
+#sticky-note p { margin: 5px 0; }
+.nota-dato { font-weight: bold; color: #111; padding-left: 10px; }
+
+/* Ventanas Base */
+.window { position: absolute; background: #c0c0c0; border: 2px outset #fff; width: 350px; z-index: 100; box-shadow: 5px 5px 10px rgba(0,0,0,0.5); }
+.title-bar { background: #000080; color: white; padding: 5px 8px; display: flex; justify-content: space-between; cursor: grab; font-weight: bold; font-size: 14px; }
+.title-bar button { background: #c0c0c0; border: 2px outset #fff; cursor: pointer; font-weight: bold; }
+.content { padding: 20px; background: white; border: 2px inset #ccc; font-size: 14px; }
+
+/* Formularios */
+input[type="password"], input[type="text"] { width: 90%; margin-bottom: 10px; padding: 5px; border: 2px inset #ccc; }
+.content button { padding: 5px 15px; border: 2px outset #ccc; cursor: pointer; font-weight: bold; }
+
+/* Barra de Tareas */
+#taskbar { position: absolute; bottom: 0; width: 100%; height: 40px; background: rgba(0, 0, 0, 0.8); border-top: 2px solid #555; display: flex; align-items: center; justify-content: flex-end; color: white; font-size: 14px; z-index: 1000; }
+#clock { padding: 0 20px; border-left: 1px solid #555; }
+#wifi-icon { padding: 0 20px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
+
+/* --- APP DE CORREO MODERNA --- */
+.mail-container { display: flex; height: 350px; font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; }
+.mail-sidebar { width: 130px; background: #2c3e50; color: white; padding-top: 20px; }
+.mail-sidebar div { padding: 10px 15px; cursor: pointer; }
+.mail-sidebar div:hover { background: #34495e; }
+.mail-list { width: 180px; background: #fff; border-right: 1px solid #ddd; overflow-y: auto; }
+.mail-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; }
+.mail-item.unread { background: #e8f4fd; border-left: 4px solid #3498db; font-weight: bold; }
+.mail-item:hover { background: #f9f9f9; }
+.mail-view { flex-grow: 1; padding: 20px; background: #fff; overflow-y: auto; }
+.mail-header { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+.mail-header h2 { margin: 0 0 5px 0; font-size: 20px; color: #333; }
+.mail-header p { margin: 0; color: #777; font-size: 13px; }

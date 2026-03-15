@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Retro OS Simulator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="desktop">
+        <div class="icon" style="top: 20px; left: 20px;" onmousedown="os.drag(event, this)" ondblclick="os.openPasswordWindow('Mis archivos', '123')">
+            <img src="archivos.png" alt="Archivos">
+            <span>Mis archivos</span>
+        </div>
+        <div class="icon" style="top: 140px; left: 20px;" onmousedown="os.drag(event, this)" ondblclick="os.openPasswordWindow('Papelera', '999')">
+            <img src="papelera.png" alt="Papelera">
+            <span>Papelera</span>
+        </div>
+        
+        <!-- Icono de Correo Actualizado -->
+        <div class="icon" style="top: 260px; left: 20px;" onmousedown="os.drag(event, this)" ondblclick="os.openMailApp()">
+            <!-- El Badge rojo (oculto por defecto) -->
+            <div id="email-badge">1</div>
+            <img src="correo.png" alt="Correo">
+            <span>Correo</span>
+        </div>
+
+        <div id="sticky-note" onmousedown="os.drag(event, this)">
+            <p>Contraseña WIFI:</p>
+            <p class="nota-dato">cyber123</p>
+            <p>Usuario:</p>
+            <p class="nota-dato">admin</p>
+        </div>
+    </div>
+
+    <div id="taskbar">
+        <div id="wifi-icon" onclick="os.openWifiWindow()">📡 Desconectado</div>
+        <div id="clock">00:00</div>
+    </div>
+
+    <script src="os.js"></script>
+</body>
+</html>
