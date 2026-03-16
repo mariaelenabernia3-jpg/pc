@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- VITAL PARA CELULARES: Evita que la pantalla haga zoom y se desajuste -->
+    <!-- VITAL PARA CELULARES: Configura la escala y evita el zoom no deseado -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Retro OS Simulator</title>
     <!-- Importar fuentes: Caveat para la nota, Roboto Mono para la terminal/navegador -->
@@ -13,12 +13,10 @@
     <!-- El escritorio con todos los iconos -->
     <div id="desktop">
         <!-- Iconos estáticos que abren apps con 1 clic -->
-        <!-- El id icon-archivos es clave para insertar FoxWorld a su lado -->
         <div class="icon" onclick="os.openPasswordWindow('Mis archivos', '123')" id="icon-archivos">
             <img src="archivos.png" alt="Archivos">
             <span>Mis archivos</span>
         </div>
-        <!-- FoxWorld se insertará dinámicamente aquí mediante JS después de la instalación -->
         
         <div class="icon" onclick="os.openPasswordWindow('Papelera', '1984')">
             <img src="papelera.png" alt="Papelera">

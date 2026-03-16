@@ -1,51 +1,337 @@
 /* --- CONFIGURACIÓN GENERAL Y ESCRITORIO --- */
-body { margin: 0; background: url('pantalla.png') no-repeat center center fixed; background-size: cover; font-family: 'Tahoma', sans-serif; overflow: hidden; height: 100vh; user-select: none; touch-action: none; }
-#desktop { padding: 25px; display: flex; flex-direction: row; gap: 25px; height: calc(100vh - 40px); position: relative; flex-wrap: wrap; align-content: flex-start; }
-.icon { width: 95px; text-align: center; color: white; cursor: pointer; font-size: 14px; text-shadow: 1px 1px 2px #000; padding: 5px; border-radius: 5px; position: relative; }
-.icon:hover { background: rgba(255, 255, 255, 0.2); }
-.icon img { width: 56px; display: block; margin: 0 auto 8px; pointer-events: none; }
-#email-badge { position: absolute; top: -5px; right: 15px; background: red; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 13px; font-weight: bold; line-height: 22px; text-align: center; z-index: 10; display: none; box-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
-#sticky-note { position: absolute; top: 30px; right: 30px; width: 160px; background: #fdfd96; padding: 10px 15px; box-shadow: 3px 3px 10px rgba(0,0,0,0.4); transform: rotate(3deg); font-family: 'Caveat', cursive; font-size: 22px; color: #333; z-index: 10; }
-.window { position: absolute; background: #c0c0c0; border: 2px outset #fff; z-index: 100; box-shadow: 5px 5px 15px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
-.title-bar { background: #000080; color: white; padding: 6px 8px; display: flex; justify-content: space-between; cursor: grab; font-weight: bold; font-size: 14px; touch-action: none; }
-.title-bar button { background: #c0c0c0; border: 2px outset #fff; cursor: pointer; font-weight: bold; padding: 0 5px; color: black; }
-.content { padding: 15px; background: white; border: 2px inset #ccc; font-size: 14px; flex-grow: 1; overflow-y: auto; }
-input[type="password"], input[type="text"] { width: 90%; margin-bottom: 10px; padding: 8px; border: 2px inset #ccc; font-size: 14px; }
-.content button { padding: 8px 15px; border: 2px outset #ccc; cursor: pointer; font-weight: bold; }
-progress { width: 100%; height: 20px; appearance: none; }
+body {
+    margin: 0;
+    background: url('pantalla.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Tahoma', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    user-select: none; /* Evita selección de texto al arrastrar */
+    touch-action: none; /* VITAL para móviles: Evita el scroll de la página al arrastrar */
+}
+
+#desktop {
+    padding: 25px;
+    display: flex;
+    flex-direction: row; /* Íconos en fila (se ajustan) */
+    gap: 25px; /* Espacio entre íconos */
+    height: calc(100vh - 40px);
+    position: relative;
+    flex-wrap: wrap; /* Permite que los íconos pasen a la siguiente fila */
+    align-content: flex-start; /* Los íconos se pegan arriba */
+}
+
+/* --- ESTILOS DE ICONOS DEL ESCRITORIO --- */
+.icon {
+    width: 95px; /* Tamaño base para PC */
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    text-shadow: 1px 1px 2px #000;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative; /* Para el badge de notificación */
+}
+.icon:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+.icon img {
+    width: 56px; /* Tamaño base de la imagen del icono */
+    display: block;
+    margin: 0 auto 8px;
+    pointer-events: none; /* Asegura que el clic/toque se detecte en el div .icon */
+}
+
+/* Badge de notificación de correo */
+#email-badge {
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 22px;
+    text-align: center;
+    z-index: 10;
+    display: none; /* Oculto por defecto, JS lo muestra */
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+/* --- NOTA DE PAPEL (POST-IT) --- */
+#sticky-note {
+    position: absolute;
+    top: 30px;
+    right: 30px; /* Esquina superior derecha */
+    width: 160px;
+    background: #fdfd96;
+    padding: 10px 15px;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.4);
+    transform: rotate(3deg);
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: #333;
+    z-index: 10; /* Siempre visible */
+}
+#sticky-note p { margin: 2px 0; }
+.nota-dato { font-weight: bold; color: #111; padding-left: 10px; }
+
+/* --- VENTANAS (Base) --- */
+.window {
+    position: absolute;
+    background: #c0c0c0; /* Fondo gris claro tipo Windows 95 */
+    border: 2px outset #fff;
+    z-index: 100; /* Z-index base para ventanas */
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+.title-bar {
+    background: #000080; /* Azul oscuro del título */
+    color: white;
+    padding: 6px 8px;
+    display: flex;
+    justify-content: space-between;
+    cursor: grab; /* Cursor de arrastrar */
+    font-weight: bold;
+    font-size: 14px;
+    touch-action: none; /* Bloquea el scroll en móviles al arrastrar la barra */
+}
+.title-bar button {
+    background: #c0c0c0;
+    border: 2px outset #fff;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0 5px;
+    color: black;
+}
+.title-bar button:active { /* Efecto de botón presionado */
+    border: 2px inset #fff;
+    background: #a0a0a0;
+}
+
+.content {
+    padding: 15px;
+    background: white;
+    border: 2px inset #ccc;
+    font-size: 14px;
+    flex-grow: 1;
+    overflow-y: auto; /* Scroll si el contenido es muy largo */
+}
+
+/* Inputs y botones genéricos dentro de las ventanas */
+input[type="password"],
+input[type="text"] {
+    width: 90%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 2px inset #ccc;
+    font-size: 14px;
+}
+.content button {
+    padding: 8px 15px;
+    border: 2px outset #ccc;
+    cursor: pointer;
+    font-weight: bold;
+}
+.content button:active { /* Efecto de botón presionado */
+    border: 2px inset #ccc;
+    background: #a0a0a0;
+}
+progress {
+    width: 100%;
+    height: 20px;
+    appearance: none;
+}
 progress::-webkit-progress-bar { background: #ccc; border: 2px inset #fff; }
 progress::-webkit-progress-value { background: #000080; }
-#taskbar { position: absolute; bottom: 0; width: 100%; height: 40px; background: rgba(0, 0, 0, 0.8); border-top: 2px solid #555; display: flex; align-items: center; justify-content: flex-end; color: white; font-size: 14px; z-index: 9999; }
-#clock { padding: 0 15px; border-left: 1px solid #555; }
-#wifi-icon { padding: 0 15px; cursor: pointer; font-weight: bold; display: flex; align-items: center; }
+progress::-moz-progress-bar { background: #000080; border: 2px inset #fff; }
 
-/* --- APPS --- */
-.mail-container { display: flex; height: 100%; font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; }
-.mail-sidebar { width: 130px; background: #2c3e50; color: white; padding-top: 10px; }
-.mail-sidebar div { padding: 10px 15px; cursor: pointer; font-size: 13px; }
-.mail-list { width: 180px; background: #fff; border-right: 1px solid #ddd; overflow-y: auto; }
-.mail-item { padding: 15px; border-bottom: 1px solid #eee; cursor: pointer; }
-.mail-item.unread { background: #e8f4fd; border-left: 4px solid #3498db; font-weight: bold; }
-.mail-view { flex-grow: 1; padding: 20px; background: #fff; overflow-y: auto; }
+
+/* --- BARRA DE TAREAS --- */
+#taskbar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 2px solid #555;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* El reloj a la derecha */
+    color: white;
+    font-size: 14px;
+    z-index: 9999; /* Siempre encima de todo */
+}
+#clock {
+    padding: 0 15px;
+    border-left: 1px solid #555;
+}
+#wifi-icon {
+    padding: 0 15px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+#wifi-icon:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* --- APP DE CORREO (NEXUSMAIL) --- */
+.mail-container {
+    display: flex;
+    height: 100%;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+}
+.mail-sidebar {
+    width: 130px;
+    background: #2c3e50;
+    color: white;
+    padding-top: 10px;
+}
+.mail-sidebar div {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.mail-sidebar div:hover { background: #34495e; }
+.mail-list {
+    width: 180px;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+.mail-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+.mail-item.unread {
+    background: #e8f4fd;
+    border-left: 4px solid #3498db;
+    font-weight: bold;
+}
+.mail-item:hover { background: #f9f9f9; }
+.mail-view {
+    flex-grow: 1;
+    padding: 20px;
+    background: #fff;
+    overflow-y: auto;
+}
+.mail-header { border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
 .mail-header h2 { margin: 0 0 5px 0; font-size: 20px; color: #333; }
-.chat-container { display: flex; height: 100%; background: #1e1e24; color: #fff; font-family: 'Segoe UI', sans-serif; }
-.chat-sidebar { width: 130px; background: #2b2b36; padding: 10px; border-right: 1px solid #111; }
-.chat-main { flex-grow: 1; display: flex; flex-direction: column; }
-.chat-messages { flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-.msg { max-width: 80%; padding: 8px 12px; border-radius: 8px; font-size: 14px; line-height: 1.4; word-wrap: break-word; }
-.msg.received { background: #3a3a4a; align-self: flex-start; border-top-left-radius: 0; }
-.msg.sent { background: #0078d7; align-self: flex-end; border-top-right-radius: 0; }
-.chat-input-area { display: flex; flex-direction: column; padding: 10px; background: #2b2b36; border-top: 1px solid #111; min-height: 60px; justify-content: center; }
-.bubble-btn { background: #0078d7; color: white; border: none; padding: 10px 15px; border-radius: 20px; cursor: pointer; font-size: 14px; margin: 5px; transition: 0.2s; text-align: left; }
+.mail-header p { margin: 0; color: #777; font-size: 13px; }
+
+/* --- APP CHATTING --- */
+.chat-container {
+    display: flex;
+    height: 100%;
+    background: #1e1e24;
+    color: #fff;
+    font-family: 'Segoe UI', sans-serif;
+}
+.chat-sidebar {
+    width: 130px;
+    background: #2b2b36;
+    padding: 10px;
+    border-right: 1px solid #111;
+}
+.chat-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.msg {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+.msg.received { background: #3a3a4a; align-self: flex-start; }
+.msg.sent { background: #0078d7; align-self: flex-end; }
+.chat-input-area {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background: #2b2b36;
+    border-top: 1px solid #111;
+    min-height: 60px;
+    justify-content: center;
+}
+.bubble-btn {
+    background: #0078d7;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+    transition: 0.2s;
+    text-align: left;
+}
+.bubble-btn:hover { background: #005a9e; transform: scale(0.98); }
 .chat-image { width: 100%; max-width: 250px; border-radius: 8px; margin-top: 5px; border: 2px solid #555; }
 
-/* --- FOXWORLD BROWSER --- */
-.foxworld-browser { position: relative; display: flex; flex-direction: column; height: 100%; background: #0d1117; color: #c9d1d9; font-family: 'Roboto Mono', monospace; }
-.foxworld-browser::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(#0d1117, #0d1117 3px, #1c222c 4px); opacity: 0.1; pointer-events: none; z-index: 1; }
+/* --- APP NAVEGADOR FOXWORLD --- */
+.foxworld-browser {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: 'Roboto Mono', monospace;
+}
+.foxworld-browser::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(rgba(18, 18, 18, 0), rgba(18, 18, 18, 0) 2px, rgba(0,0,0,0.1) 3px);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+}
 .fw-header { display: flex; align-items: center; background: #161b22; padding: 8px; border-bottom: 1px solid #30363d; z-index: 2; }
 .fw-address-bar { flex-grow: 1; background: #010409; border: 1px solid #30363d; border-radius: 4px; padding: 5px 10px; color: #58a6ff; font-size: 13px; outline: none; }
-.fw-links-bar { background: #1c222c; padding: 8px 10px; border-bottom: 1px solid #30363d; display: flex; gap: 10px; flex-wrap: wrap; z-index: 2; }
-.fw-link-btn { background: #30363d; color: #58a6ff; border: 1px solid #58a6ff; padding: 4px 10px; font-size: 12px; cursor: pointer; border-radius: 12px; }
+.fw-links-bar {
+    background: #1c222c;
+    padding: 8px 10px;
+    border-bottom: 1px solid #30363d;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Importante para que los enlaces no se desborden en móvil */
+    z-index: 2;
+}
+.fw-link-btn {
+    background: #30363d;
+    color: #58a6ff;
+    border: 1px solid #58a6ff;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 12px;
+}
 .fw-link-btn:hover { background: #58a6ff; color: #0d1117; }
 .fw-content { flex-grow: 1; padding: 20px; text-align: center; z-index: 2; overflow-y: auto; }
 .fw-footer { display: flex; justify-content: space-between; background: #161b22; padding: 5px 10px; font-size: 11px; border-top: 1px solid #30363d; z-index: 2; }
@@ -53,7 +339,7 @@ progress::-webkit-progress-value { background: #000080; }
 
 /* --- PÁGINAS WEB INTERNAS --- */
 
-/* Página corporativa OmniNet (NUEVA INTERFAZ COOL) */
+/* Página corporativa OmniNet */
 .omninet-page {
     background: linear-gradient(to bottom, #1a202c, #0a0e14);
     color: #e0e6ed;
@@ -69,37 +355,14 @@ progress::-webkit-progress-value { background: #000080; }
     font-family: 'Roboto Mono', monospace;
     font-size: 3em;
     font-weight: bold;
-    color: #4CAF50; /* Verde neón */
+    color: #4CAF50;
     text-shadow: 0 0 10px rgba(76, 175, 80, 0.6);
     margin-bottom: 20px;
 }
-.omninet-page h1 {
-    font-size: 2.5em;
-    color: #e0e6ed;
-    margin-bottom: 15px;
-}
-.omninet-page p {
-    font-size: 1.1em;
-    line-height: 1.6;
-    color: #a0a8b3;
-    margin-bottom: 25px;
-}
-.omninet-btn {
-    background: linear-gradient(to right, #4CAF50, #8BC34A);
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    font-size: 1.1em;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
-}
-.omninet-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(76, 175, 80, 0.6);
-}
+.omninet-page h1 { font-size: 2.5em; color: #e0e6ed; margin-bottom: 15px; }
+.omninet-page p { font-size: 1.1em; line-height: 1.6; color: #a0a8b3; margin-bottom: 25px; }
+.omninet-btn { background: linear-gradient(to right, #4CAF50, #8BC34A); color: white; padding: 12px 25px; border: none; border-radius: 25px; font-size: 1.1em; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4); }
+.omninet-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(76, 175, 80, 0.6); }
 .omninet-features {
     display: flex;
     justify-content: space-around;
@@ -121,21 +384,80 @@ progress::-webkit-progress-value { background: #000080; }
 }
 
 /* Página de Escaneo Facial */
-.scan-page { background: #0a0a0c; color: #0f0; border: 1px solid #0f0; padding: 20px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; text-align: left; }
-.scan-container { position: relative; display: inline-block; border: 2px solid #58a6ff; margin-bottom: 15px; }
-.scan-container img { width: 200px; display: block; filter: grayscale(100%) contrast(120%); }
-.scan-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #0f0; box-shadow: 0 0 10px #0f0; animation: scanAnim 1.5s infinite linear; }
-@keyframes scanAnim { 0% {top: 0;} 50% {top: 100%;} 100% {top: 0;} }
-.scan-data { font-size: 14px; line-height: 1.6; border-top: 1px dashed #0f0; padding-top: 10px; display: none; }
+.scan-page {
+    background: #0a0a0c;
+    color: #0f0;
+    border: 1px solid #0f0;
+    padding: 20px;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    text-align: left;
+}
+.scan-container {
+    position: relative;
+    display: inline-block;
+    border: 2px solid #58a6ff;
+    margin-bottom: 15px;
+}
+.scan-container img {
+    width: 200px;
+    display: block;
+    filter: grayscale(100%) contrast(120%);
+}
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #0f0;
+    box-shadow: 0 0 10px #0f0;
+    animation: scanAnim 1.5s infinite linear;
+}
+@keyframes scanAnim {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+}
+.scan-data {
+    font-size: 14px;
+    line-height: 1.6;
+    border-top: 1px dashed #0f0;
+    padding-top: 10px;
+    display: none;
+}
 
-/* --- RESPONSIVE PARA MÓVILES --- */
+/* --- RESPONSIVE PARA MÓVILES (Media Queries) --- */
 @media (max-width: 600px) {
-    #desktop { flex-direction: row; padding: 15px; gap: 10px; } .icon { width: 75px; font-size: 12px; } .icon img { width: 40px; }
-    #sticky-note { top: 10px; right: 10px; font-size: 18px; padding: 8px 12px; width: 120px; }
-    .mail-container, .chat-container { flex-direction: column; } .mail-sidebar, .chat-sidebar { width: 100%; display: flex; padding: 0; }
+    #desktop {
+        flex-direction: row; /* Íconos en cuadrícula en móviles */
+        padding: 15px;
+        gap: 10px;
+    }
+    .icon {
+        width: 75px; /* Íconos más pequeños */
+        font-size: 12px;
+    }
+    .icon img {
+        width: 40px;
+    }
+    #sticky-note {
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+        padding: 8px 12px;
+        width: 120px;
+    }
+    /* Las apps ocupan más pantalla en móvil y cambian layout a columna */
+    .mail-container, .chat-container { flex-direction: column; }
+    .mail-sidebar, .chat-sidebar { width: 100%; display: flex; padding: 0; }
     .mail-sidebar div, .chat-sidebar div { flex: 1; text-align: center; border-bottom: 1px solid #1a252f; }
     .mail-list { width: 100%; height: 100px; border-bottom: 1px solid #ddd; }
+    /* Ajustes específicos para FoxWorld en móvil */
     .foxworld-browser h1 { font-size: 24px; margin-top: 20px; }
+    .fw-links-bar { flex-direction: column; gap: 5px; } /* Enlaces de FoxWorld en columna en móvil */
+    .fw-link-btn { width: 100%; text-align: center; } /* Botones de FoxWorld a ancho completo */
+    /* Ajustes para la página OmniNet en móvil */
     .omninet-page { padding: 15px; } .omninet-page .logo { font-size: 2em; } .omninet-page h1 { font-size: 1.8em; }
     .omninet-features { flex-direction: column; gap: 15px; } .omninet-feature-item { width: 100%; }
 }
