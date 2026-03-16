@@ -5,41 +5,51 @@
     <!-- VITAL PARA CELULARES: Evita que la pantalla haga zoom y se desajuste -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Retro OS Simulator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <!-- Importar fuentes: Caveat para la nota, Roboto Mono para la terminal/navegador -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Roboto+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- El escritorio con todos los iconos -->
     <div id="desktop">
-        <!-- Iconos: Ahora usan onpointerdown para unificar Dedo y Mouse -->
-        <div class="icon" style="top: 20px; left: 10px;" onpointerdown="os.iconInteract(event, this, () => os.openPasswordWindow('Mis archivos', '123'))">
+        <!-- Iconos estáticos que abren apps con 1 clic -->
+        <!-- El id icon-archivos es clave para insertar FoxWorld a su lado -->
+        <div class="icon" onclick="os.openPasswordWindow('Mis archivos', '123')" id="icon-archivos">
             <img src="archivos.png" alt="Archivos">
             <span>Mis archivos</span>
         </div>
-        <div class="icon" style="top: 130px; left: 10px;" onpointerdown="os.iconInteract(event, this, () => os.openPasswordWindow('Papelera', '1984'))">
+        <!-- FoxWorld se insertará dinámicamente aquí mediante JS después de la instalación -->
+        
+        <div class="icon" onclick="os.openPasswordWindow('Papelera', '1984')">
             <img src="papelera.png" alt="Papelera">
             <span>Papelera</span>
         </div>
-        <div class="icon" style="top: 240px; left: 10px;" onpointerdown="os.iconInteract(event, this, () => os.openMailApp())">
+        <div class="icon" onclick="os.openMailApp()">
             <div id="email-badge">1</div>
             <img src="correo.png" alt="Correo">
             <span>Correo</span>
         </div>
+        <div class="icon" onclick="os.openChatApp()">
+            <img src="chatting.png" alt="Chatting">
+            <span>Chatting</span>
+        </div>
 
-        <!-- Post-it Note -->
-        <div id="sticky-note" onpointerdown="os.iconInteract(event, this, null)">
-            <p>Contraseña WIFI:</p>
+        <!-- La nota de papel (Post-it) -->
+        <div id="sticky-note">
+            <p>WIFI:</p>
             <p class="nota-dato">cyber123</p>
             <p>Usuario:</p>
             <p class="nota-dato">admin</p>
         </div>
     </div>
 
-    <!-- Barra de tareas -->
+    <!-- La barra de tareas en la parte inferior -->
     <div id="taskbar">
         <div id="wifi-icon" onclick="os.openWifiWindow()">📡 Desconectado</div>
         <div id="clock">00:00</div>
     </div>
 
+    <!-- El motor del sistema operativo (siempre al final para asegurar que el DOM esté cargado) -->
     <script src="os.js"></script>
 </body>
 </html>
